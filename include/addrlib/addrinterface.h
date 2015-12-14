@@ -526,6 +526,41 @@ struct ADDR_COMPUTE_HTILE_INFO_OUTPUT
 
 /**
 ***************************************************************************************************
+*   ADDR_COMPUTE_SLICESWIZZLE_INPUT
+*
+*   @brief
+*       Input structure of AddrComputeSliceSwizzle
+***************************************************************************************************
+*/
+struct ADDR_COMPUTE_SLICESWIZZLE_INPUT
+{
+   uint32_t size;
+   AddrTileMode tileMode;
+   uint32_t baseSwizzle;
+   uint32_t slice;
+   size_t baseAddr;
+   ADDR_TILEINFO *pTileInfo;
+   int32_t tileIndex;
+};
+
+
+/**
+***************************************************************************************************
+*   ADDR_COMPUTE_SLICESWIZZLE_OUTPUT
+*
+*   @brief
+*       Output structure of AddrComputeSliceSwizzle
+***************************************************************************************************
+*/
+struct ADDR_COMPUTE_SLICESWIZZLE_OUTPUT
+{
+   uint32_t size;
+   uint32_t tileSwizzle;
+};
+
+
+/**
+***************************************************************************************************
 *   AddrCreate
 *
 *   @brief
@@ -602,3 +637,17 @@ AddrExtractBankPipeSwizzle(ADDR_HANDLE hLib, ADDR_EXTRACT_BANKPIPE_SWIZZLE_INPUT
 */
 ADDR_E_RETURNCODE
 AddrComputeHtileInfo(ADDR_HANDLE hLib, ADDR_COMPUTE_HTILE_INFO_INPUT *pIn, ADDR_COMPUTE_HTILE_INFO_OUTPUT *pOut);
+
+
+/**
+***************************************************************************************************
+*   AddrComputeSliceSwizzle
+*
+*   @brief
+*       Compute a swizzle for slice from a base swizzle
+*   @return
+*       ADDR_OK if no error
+***************************************************************************************************
+*/
+ADDR_E_RETURNCODE
+AddrComputeSliceSwizzle(ADDR_HANDLE hLib, ADDR_COMPUTE_SLICESWIZZLE_INPUT *pIn, ADDR_COMPUTE_SLICESWIZZLE_OUTPUT *pOut);

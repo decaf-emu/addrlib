@@ -270,6 +270,28 @@ AddrLib::SetAddrChipFamily(uint32_t uChipFamily, uint32_t uChipRevision)
 
 /**
 ***************************************************************************************************
+*   AddrLib::IsMacroTiled
+*
+*   @brief
+*       Check if the tile mode is macro tiled
+*
+*   @return
+*       TRUE if it is macro tiled (2D/2B/3D/3B)
+***************************************************************************************************
+*/
+bool
+AddrLib::IsMacroTiled(AddrTileMode tileMode) const
+{
+   if (tileMode >= ADDR_TM_2D_TILED_THIN1 && tileMode <= ADDR_TM_3D_TILED_XTHICK) {
+      return true;
+   } else {
+      return false;
+   }
+}
+
+
+/**
+***************************************************************************************************
 *   AddrLib::ComputeSurfaceThickness
 *
 *   @brief
@@ -1024,6 +1046,54 @@ AddrLib::ComputeHtileInfo(const ADDR_COMPUTE_HTILE_INFO_INPUT *pIn,
                                       &pOut->macroHeight,
                                       nullptr,
                                       &pOut->baseAlign);
+      }
+   }
+
+   return returnCode;
+}
+
+
+/**
+***************************************************************************************************
+*   AddrLib::ComputeSliceTileSwizzle
+*
+*   @brief
+*       Interface function stub of ComputeSliceTileSwizzle.
+*
+*   @return
+*       ADDR_E_RETURNCODE
+***************************************************************************************************
+*/
+ADDR_E_RETURNCODE
+AddrLib::ComputeSliceTileSwizzle(const ADDR_COMPUTE_SLICESWIZZLE_INPUT *pIn,
+                                 ADDR_COMPUTE_SLICESWIZZLE_OUTPUT *pOut) const
+{
+   ADDR_E_RETURNCODE returnCode = ADDR_OK;
+
+   if (GetFillSizeFieldsFlags()) {
+      if (pIn->size != sizeof(ADDR_COMPUTE_SLICESWIZZLE_INPUT) || pOut->size != sizeof(ADDR_COMPUTE_SLICESWIZZLE_OUTPUT)) {
+         returnCode = ADDR_PARAMSIZEMISMATCH;
+      }
+   }
+
+   if (returnCode == ADDR_OK) {
+      ADDR_COMPUTE_SLICESWIZZLE_INPUT input;
+      ADDR_TILEINFO tileInfoNull;
+      memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
+
+      if (UseTileIndex(pIn->tileIndex)) {
+         input = *pIn;
+
+         if (!pIn->pTileInfo) {
+            input.pTileInfo = &tileInfoNull;
+         }
+
+         returnCode = HwlSetupTileCfg(input.tileIndex, input.pTileInfo, nullptr, nullptr);
+         pIn = &input;
+      }
+
+      if (returnCode == ADDR_OK) {
+         returnCode = HwlComputeSliceTileSwizzle(pIn, pOut);
       }
    }
 

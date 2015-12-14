@@ -271,6 +271,12 @@ public:
                           uint32_t *pBankSwizzle,
                           uint32_t *pPipeSwizzle) const;
 
+   uint32_t
+   ComputeSliceTileSwizzle(AddrTileMode tileMode,
+                           uint32_t baseSwizzle,
+                           uint32_t slice,
+                           size_t baseAddr) const;
+
    virtual ADDR_E_RETURNCODE
    HwlExtractBankPipeSwizzle(const ADDR_EXTRACT_BANKPIPE_SWIZZLE_INPUT *pIn,
                              ADDR_EXTRACT_BANKPIPE_SWIZZLE_OUTPUT *pOut) const override;
@@ -289,6 +295,10 @@ public:
                         bool isLinear,
                         uint32_t numSlices,
                         uint32_t baseAlign) const override;
+
+   virtual ADDR_E_RETURNCODE
+   HwlComputeSliceTileSwizzle(const ADDR_COMPUTE_SLICESWIZZLE_INPUT *pIn,
+                              ADDR_COMPUTE_SLICESWIZZLE_OUTPUT *pOut) const override;
 
 private:
    uint32_t mSwapSize;

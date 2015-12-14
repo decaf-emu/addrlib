@@ -1955,3 +1955,62 @@ R600AddrLib::HwlComputeHtileBytes(uint32_t pitch,
 
    return htileBytes;
 }
+
+
+/**
+***************************************************************************************************
+*   R600AddrLib::ComputeSliceTileSwizzle
+*
+*   @brief
+*       Compute cubemap/3d texture faces/slices tile swizzle
+*
+*   @return
+*       Tile swizzle
+***************************************************************************************************
+*/
+uint32_t
+R600AddrLib::ComputeSliceTileSwizzle(AddrTileMode tileMode,
+                                     uint32_t baseSwizzle,
+                                     uint32_t slice,
+                                     size_t baseAddr) const
+{
+   if (!IsMacroTiled(tileMode)) {
+      return 0;
+   }
+
+   auto thickness = ComputeSurfaceThickness(tileMode);
+   auto rotation = ComputeSurfaceRotationFromTileMode(tileMode);
+   auto groupMask = (mPipes * mBanks) - 1;
+
+   auto firstSlice = slice / thickness;
+   auto tileSwizzle = (baseSwizzle + firstSlice * rotation) & groupMask;
+
+   baseAddr ^= tileSwizzle * mPipeInterleaveBytes;
+   baseAddr >>= 8;
+
+   return static_cast<uint32_t>(baseAddr);
+}
+
+
+/**
+***************************************************************************************************
+*   R600AddrLib::HwlComputeSliceTileSwizzle
+*
+*   @brief
+*       Entry of R600AddrLib ComputeSliceTileSwizzle
+*
+*   @return
+*       ADDR_E_RETURNCODE
+***************************************************************************************************
+*/
+ADDR_E_RETURNCODE
+R600AddrLib::HwlComputeSliceTileSwizzle(const ADDR_COMPUTE_SLICESWIZZLE_INPUT *pIn,
+                                        ADDR_COMPUTE_SLICESWIZZLE_OUTPUT *pOut) const
+{
+   pOut->tileSwizzle = ComputeSliceTileSwizzle(pIn->tileMode,
+                                               pIn->baseSwizzle,
+                                               pIn->slice,
+                                               pIn->baseAddr);
+
+   return ADDR_OK;
+}

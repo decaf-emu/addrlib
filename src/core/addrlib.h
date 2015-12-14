@@ -72,6 +72,9 @@ public:
    void
    SetAddrChipFamily(uint32_t uChipFamily, uint32_t uChipRevision);
 
+   bool
+   IsMacroTiled(AddrTileMode tileMode) const;
+
    uint32_t
    ComputeSurfaceThickness(AddrTileMode tileMode) const;
 
@@ -150,6 +153,10 @@ public:
    ComputeHtileInfo(const ADDR_COMPUTE_HTILE_INFO_INPUT *pIn,
                      ADDR_COMPUTE_HTILE_INFO_OUTPUT *pOut) const;
 
+   ADDR_E_RETURNCODE
+   ComputeSliceTileSwizzle(const ADDR_COMPUTE_SLICESWIZZLE_INPUT *pIn,
+                           ADDR_COMPUTE_SLICESWIZZLE_OUTPUT *pOut) const;
+
    virtual bool
    ComputeQbStereoInfo(ADDR_COMPUTE_SURFACE_INFO_OUTPUT *pOut) const;
 
@@ -205,6 +212,10 @@ public:
                         bool isLinear,
                         uint32_t numSlices,
                         uint32_t baseAlign) const = 0;
+
+   virtual ADDR_E_RETURNCODE
+   HwlComputeSliceTileSwizzle(const ADDR_COMPUTE_SLICESWIZZLE_INPUT *pIn,
+                              ADDR_COMPUTE_SLICESWIZZLE_OUTPUT *pOut) const = 0;
 
 protected:
    AddrLibClass mClass;

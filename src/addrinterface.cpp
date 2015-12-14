@@ -171,3 +171,26 @@ AddrComputeHtileInfo(ADDR_HANDLE hLib, ADDR_COMPUTE_HTILE_INFO_INPUT *pIn, ADDR_
 
    return pLib->ComputeHtileInfo(pIn, pOut);
 }
+
+
+/**
+***************************************************************************************************
+*   AddrComputeSliceSwizzle
+*
+*   @brief
+*       Compute a swizzle for slice from a base swizzle
+*   @return
+*       ADDR_OK if no error
+***************************************************************************************************
+*/
+ADDR_E_RETURNCODE
+AddrComputeSliceSwizzle(ADDR_HANDLE hLib, ADDR_COMPUTE_SLICESWIZZLE_INPUT *pIn, ADDR_COMPUTE_SLICESWIZZLE_OUTPUT *pOut)
+{
+   auto pLib = AddrLib::GetAddrLib(hLib);
+
+   if (!pLib) {
+      return ADDR_ERROR;
+   }
+
+   return pLib->ComputeSliceTileSwizzle(pIn, pOut);
+}
