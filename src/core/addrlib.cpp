@@ -32,6 +32,7 @@
 */
 
 #include <algorithm>
+#include <cstring>
 #include "addrlib.h"
 
 
@@ -501,7 +502,6 @@ AddrLib::ComputeSurfaceInfo(ADDR_COMPUTE_SURFACE_INFO_INPUT *pIn,
 
    if (returnCode == ADDR_OK) {
       ADDR_TILEINFO tileInfoNull;
-      memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
 
       ComputeMipLevel(pIn);
 
@@ -513,6 +513,8 @@ AddrLib::ComputeSurfaceInfo(ADDR_COMPUTE_SURFACE_INFO_INPUT *pIn,
       auto sliceFlags = GetSliceComputingFlags();
 
       if (UseTileIndex(pIn->tileIndex) && !pIn->pTileInfo) {
+         std::memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
+
          if (pOut->pTileInfo) {
             pIn->pTileInfo = pOut->pTileInfo;
          } else {
@@ -780,12 +782,12 @@ AddrLib::ComputeSurfaceAddrFromCoord(const ADDR_COMPUTE_SURFACE_ADDRFROMCOORD_IN
    }
 
    if (returnCode == ADDR_OK) {
+      ADDR_COMPUTE_SURFACE_ADDRFROMCOORD_INPUT input;
       ADDR_TILEINFO tileInfoNull;
-      memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
 
       if (UseTileIndex(pIn->tileIndex)) {
-         ADDR_COMPUTE_SURFACE_ADDRFROMCOORD_INPUT input;
-         memcpy(&input, pIn, sizeof(ADDR_COMPUTE_SURFACE_ADDRFROMCOORD_INPUT));
+         std::memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
+         input = *pIn;
 
          if (!pIn->pTileInfo) {
             input.pTileInfo = &tileInfoNull;
@@ -830,9 +832,9 @@ AddrLib::ExtractBankPipeSwizzle(const ADDR_EXTRACT_BANKPIPE_SWIZZLE_INPUT *pIn,
    if (returnCode == ADDR_OK) {
       ADDR_EXTRACT_BANKPIPE_SWIZZLE_INPUT input;
       ADDR_TILEINFO tileInfoNull;
-      memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
 
       if (UseTileIndex(pIn->tileIndex)) {
+         std::memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
          input = *pIn;
 
          if (!pIn->pTileInfo) {
@@ -1018,9 +1020,9 @@ AddrLib::ComputeHtileInfo(const ADDR_COMPUTE_HTILE_INFO_INPUT *pIn,
    if (returnCode == ADDR_OK) {
       ADDR_COMPUTE_HTILE_INFO_INPUT input;
       ADDR_TILEINFO tileInfoNull;
-      memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
 
       if (UseTileIndex(pIn->tileIndex)) {
+         std::memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
          input = *pIn;
 
          if (!pIn->pTileInfo) {
@@ -1079,9 +1081,9 @@ AddrLib::ComputeSliceTileSwizzle(const ADDR_COMPUTE_SLICESWIZZLE_INPUT *pIn,
    if (returnCode == ADDR_OK) {
       ADDR_COMPUTE_SLICESWIZZLE_INPUT input;
       ADDR_TILEINFO tileInfoNull;
-      memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
 
       if (UseTileIndex(pIn->tileIndex)) {
+         std::memset(&tileInfoNull, 0, sizeof(ADDR_TILEINFO));
          input = *pIn;
 
          if (!pIn->pTileInfo) {

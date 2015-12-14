@@ -32,6 +32,8 @@
 */
 
 #pragma once
+#include <cstdarg>
+#include <cstddef>
 #include "addrtypes.h"
 
 #define ADDRLIB_VERSION 502
