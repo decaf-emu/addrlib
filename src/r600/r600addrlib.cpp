@@ -468,7 +468,6 @@ R600AddrLib::HwlDegradeThickTileMode(AddrTileMode tileMode,
                                      uint32_t tileSlices,
                                      bool isDepth) const
 {
-
    switch (tileMode) {
    case ADDR_TM_1D_TILED_THIN1:
       if (numSamples > 1 && mConfigFlags.no1DTiledMSAA) {
@@ -525,6 +524,8 @@ R600AddrLib::HwlDegradeThickTileMode(AddrTileMode tileMode,
       }
       break;
    }
+
+   return tileMode;
 }
 
 
