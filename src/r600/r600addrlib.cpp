@@ -1632,7 +1632,7 @@ R600AddrLib::ComputeSurfaceAddrFromCoordMacroTiled(uint32_t x,
    uint64_t sampleSlice;
    uint64_t tileSliceBits;
 
-   if (microTileBytes > static_cast<uint64_t>(mSplitSize) || numSamples > 1) {
+   if (numSamples > 1 && microTileBytes > static_cast<uint64_t>(mSplitSize)) {
       samplesPerSlice = mSplitSize / bytesPerSample;
       numSampleSplits = numSamples / samplesPerSlice;
       numSamples = static_cast<uint32_t>(samplesPerSlice);
