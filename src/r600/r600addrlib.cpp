@@ -999,7 +999,7 @@ R600AddrLib::ComputeSurfaceInfoMicroTiled(const ADDR_COMPUTE_SURFACE_INFO_INPUT 
       }
    }
 
-   ComputeSurfaceAlignmentsMicrotiled(pIn->tileMode,
+   ComputeSurfaceAlignmentsMicrotiled(tileMode,
                                       pIn->bpp,
                                       pIn->flags,
                                       pIn->numSamples,
