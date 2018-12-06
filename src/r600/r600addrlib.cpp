@@ -1250,7 +1250,7 @@ R600AddrLib::ComputeSurfaceInfoMacroTiled(const ADDR_COMPUTE_SURFACE_INFO_INPUT 
       }
    }
 
-   ComputeSurfaceAlignmentsMacrotiled(pIn->tileMode,
+   ComputeSurfaceAlignmentsMacrotiled(tileMode,
                                       pIn->bpp,
                                       pIn->flags,
                                       pIn->numSamples,
