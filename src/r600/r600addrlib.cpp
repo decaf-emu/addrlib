@@ -624,7 +624,7 @@ R600AddrLib::ComputeSurfaceMipLevelTileMode(AddrTileMode baseTileMode,
    case ADDR_TM_2D_TILED_THICK:
    case ADDR_TM_3D_TILED_THICK:
       if (width < widthAlignFactor * macroTileWidth || height < macroTileHeight) {
-         tileMode = ADDR_TM_1D_TILED_THIN1;
+         tileMode = ADDR_TM_1D_TILED_THICK;
       }
       break;
    }
