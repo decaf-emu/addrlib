@@ -557,7 +557,7 @@ AddrLib::ComputeSurfaceInfo(ADDR_COMPUTE_SURFACE_INFO_INPUT *pIn,
          pOut->pixelPitch = pOut->pitch;
          pOut->pixelHeight = pOut->height;
 
-         if (pIn->format != ADDR_FMT_INVALID && !pIn->flags.linearWA && pIn->mipLevel == 0) {
+         if (pIn->format != ADDR_FMT_INVALID && (!pIn->flags.linearWA && pIn->mipLevel == 0)) {
             mElemLib->RestoreSurfaceInfo(elemMode, expandX, expandY, &bpp, &pOut->pixelPitch, &pOut->pixelHeight);
          }
 
